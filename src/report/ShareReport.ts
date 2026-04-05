@@ -1,4 +1,5 @@
 import type { ReportPayload } from '../types/report.types';
+import { resolveCssColorForCanvas, cssColorWithAlpha } from '../lib/canvasColor';
 import { getGradeColor } from './theme';
 
 const CARD_W = 1200;
@@ -14,16 +15,20 @@ export async function generateShareImage(payload: ReportPayload): Promise<Blob> 
   ctx.fillStyle = '#0A0E1A';
   ctx.fillRect(0, 0, CARD_W, CARD_H);
 
+  const gradeColor = resolveCssColorForCanvas(getGradeColor(payload.score.grade));
+  const border = resolveCssColorForCanvas('var(--color-border)');
+  const muted = resolveCssColorForCanvas('var(--color-static-grey)');
+  const surface = resolveCssColorForCanvas('var(--color-surface)');
+
   // Subtle gradient overlay
   const grad = ctx.createRadialGradient(CARD_W / 2, CARD_H / 2, 0, CARD_W / 2, CARD_H / 2, 500);
-  const gradeColor = getGradeColor(payload.score.grade);
-  grad.addColorStop(0, gradeColor + '15');
+  grad.addColorStop(0, cssColorWithAlpha(gradeColor, 0x15 / 255));
   grad.addColorStop(1, 'transparent');
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, CARD_W, CARD_H);
 
   // Border
-  ctx.strokeStyle = '#1E293B';
+  ctx.strokeStyle = border;
   ctx.lineWidth = 2;
   ctx.strokeRect(1, 1, CARD_W - 2, CARD_H - 2);
 
@@ -48,7 +53,7 @@ export async function generateShareImage(payload: ReportPayload): Promise<Blob> 
   // Mode label
   const modeLabel = `${payload.gameConfig.mode === 'EASY' ? 'Easy' : 'Advanced'} · ${payload.gameConfig.trlLabel}`;
   ctx.font = '14px Inter, sans-serif';
-  ctx.fillStyle = '#6B7280';
+  ctx.fillStyle = muted;
   ctx.fillText(modeLabel, cx, 230);
 
   // Score
@@ -56,7 +61,7 @@ export async function generateShareImage(payload: ReportPayload): Promise<Blob> 
   ctx.fillStyle = gradeColor;
   ctx.fillText(`${payload.score.totalScore}`, cx - 30, 310);
   ctx.font = '24px Orbitron, monospace';
-  ctx.fillStyle = '#6B7280';
+  ctx.fillStyle = muted;
   ctx.fillText('/ 100', cx + 60, 310);
 
   // Three metric cards
@@ -76,11 +81,11 @@ export async function generateShareImage(payload: ReportPayload): Promise<Blob> 
     const x = startX + i * (cardW + cardGap);
     const y = 370;
 
-    ctx.fillStyle = '#111827';
+    ctx.fillStyle = surface;
     ctx.beginPath();
     ctx.roundRect(x, y, cardW, 100, 12);
     ctx.fill();
-    ctx.strokeStyle = gradeColor + '30';
+    ctx.strokeStyle = cssColorWithAlpha(gradeColor, 0x30 / 255);
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.roundRect(x, y, cardW, 100, 12);
@@ -96,7 +101,7 @@ export async function generateShareImage(payload: ReportPayload): Promise<Blob> 
     ctx.fillText(m.value, x + cardW / 2, y + 58);
 
     ctx.font = '12px Inter, sans-serif';
-    ctx.fillStyle = '#6B7280';
+    ctx.fillStyle = muted;
     ctx.fillText(m.pts, x + cardW / 2, y + 82);
   }
 

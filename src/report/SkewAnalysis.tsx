@@ -8,9 +8,9 @@ interface SkewAnalysisProps {
 }
 
 const BIAS_COLORS: Record<SkewBias, string> = {
-  EARLY: '#3B82F6',
-  NEUTRAL: '#10B981',
-  LATE: '#F59E0B',
+  EARLY: 'var(--color-industrial-blue)',
+  NEUTRAL: 'var(--color-mars-orange)',
+  LATE: 'var(--color-prototype-amber)',
 };
 
 const BIAS_LABELS: Record<SkewBias, string> = {
@@ -62,7 +62,7 @@ export default function SkewAnalysis({
         {/* Center marker */}
         <line
           x1={centerX} y1={trackY - 12} x2={centerX} y2={trackY + 12}
-          stroke="#6B7280" strokeWidth="1.5"
+          stroke="var(--color-static-grey)" strokeWidth="1.5"
         />
 
         {/* Edge markers */}
@@ -70,13 +70,13 @@ export default function SkewAnalysis({
         <line x1={trackRight} y1={trackY - 8} x2={trackRight} y2={trackY + 8} stroke="#374151" strokeWidth="1" />
 
         {/* Labels */}
-        <text x={trackLeft} y={trackY - 16} textAnchor="middle" fill="#6B7280" fontSize="11" fontFamily="Inter, sans-serif">
+        <text x={trackLeft} y={trackY - 16} textAnchor="middle" fill="var(--color-static-grey)" fontSize="11" fontFamily="Inter, sans-serif">
           EARLY
         </text>
         <text x={centerX} y={trackY - 16} textAnchor="middle" fill="#9CA3AF" fontSize="11" fontFamily="Inter, sans-serif">
           IDEAL
         </text>
-        <text x={trackRight} y={trackY - 16} textAnchor="middle" fill="#6B7280" fontSize="11" fontFamily="Inter, sans-serif">
+        <text x={trackRight} y={trackY - 16} textAnchor="middle" fill="var(--color-static-grey)" fontSize="11" fontFamily="Inter, sans-serif">
           LATE
         </text>
 
@@ -140,7 +140,7 @@ export default function SkewAnalysis({
 
       {bias === 'NEUTRAL' && (
         <p
-          className="mt-2 text-center text-xs text-green-400/70"
+          className="mt-2 text-center text-xs text-orange-400/70"
           style={{ animation: animate ? 'skewFadeIn 0.6s 2.4s both' : undefined }}
         >
           Timing Centered — no offset compensation needed

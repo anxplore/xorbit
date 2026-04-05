@@ -42,9 +42,9 @@ export default function ModeSelect({ onStart }: ModeSelectProps) {
         <ModeCard
           mode="EASY"
           title="EASY MODE"
-          subtitle="空白鍵翻轉"
+          subtitle="Space to toggle"
           keyBadge="[SPACE] = Toggle"
-          accentColor="#3B82F6"
+          accentColor="var(--color-industrial-blue)"
           speedOptions={EASY_SPEEDS}
           defaultSpeed="SPEED_1"
           onSelect={handleSelect}
@@ -52,9 +52,9 @@ export default function ModeSelect({ onStart }: ModeSelectProps) {
         <ModeCard
           mode="ADVANCED"
           title="ADVANCED MODE"
-          subtitle="上下鍵控制電位"
+          subtitle="Up/Down to control voltage"
           keyBadge="[↑] = HIGH  [↓] = LOW"
-          accentColor="#A855F7"
+          accentColor="var(--color-space-purple)"
           speedOptions={ADVANCED_SPEEDS}
           defaultSpeed="SPEED_1"
           onSelect={handleSelect}
@@ -63,7 +63,7 @@ export default function ModeSelect({ onStart }: ModeSelectProps) {
 
       {showOnboardingHint() && (
         <p className="mt-6 text-center text-sm text-gray-500">
-          💡 建議新手從 Easy · 100 Mbps 開始
+          💡 Suggested to start with Easy · 100 Mbps
         </p>
       )}
     </div>

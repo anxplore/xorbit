@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { resolveCssColorForCanvas } from '../lib/canvasColor';
 
 interface WaveformDemoProps {
   scenario: 'data-hold-strobe-toggle' | 'data-toggle-strobe-hold';
@@ -33,6 +34,9 @@ export default function WaveformDemo({
     const speed = 0.015;
 
     const dataHold = scenario === 'data-hold-strobe-toggle';
+    const colData = resolveCssColorForCanvas('var(--color-static-grey)');
+    const colStrobe = resolveCssColorForCanvas('var(--color-industrial-blue)');
+    const colClock = resolveCssColorForCanvas('var(--color-space-purple)');
 
     function draw() {
       if (!ctx) return;
@@ -76,27 +80,27 @@ export default function WaveformDemo({
       }
 
       // Data lane
-      ctx.strokeStyle = '#6B7280';
+      ctx.strokeStyle = colData;
       ctx.lineWidth = 2;
       drawWave(0, dataLevels);
 
       // Strobe lane
-      ctx.strokeStyle = '#3B82F6';
+      ctx.strokeStyle = colStrobe;
       ctx.lineWidth = 2.5;
       drawWave(laneH, strobeLevels);
 
       // Clock lane
-      ctx.strokeStyle = '#A855F7';
+      ctx.strokeStyle = colClock;
       ctx.lineWidth = 2;
       drawWave(laneH * 2, clockLevels);
 
       // Labels
       ctx.font = '11px Inter, sans-serif';
-      ctx.fillStyle = '#6B7280';
+      ctx.fillStyle = colData;
       ctx.fillText('Data', 4, 14);
-      ctx.fillStyle = '#3B82F6';
+      ctx.fillStyle = colStrobe;
       ctx.fillText('Strobe', 4, laneH + 14);
-      ctx.fillStyle = '#A855F7';
+      ctx.fillStyle = colClock;
       ctx.fillText('D ⊕ S', 4, laneH * 2 + 14);
 
       if (progress < 1) {

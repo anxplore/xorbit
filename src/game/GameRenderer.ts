@@ -1,22 +1,6 @@
 import type { GameConfig } from '../types/game.types';
 import type { GameState, Cue } from './GameLoop';
-
-const LANE_COLORS = {
-  data: '#6B7280',
-  strobe: '#3B82F6',
-  clock: '#A855F7',
-  cueToggle: '#FFFFFF',
-  cueHold: '#6B728080',
-};
-
-const FEEDBACK_COLORS: Record<string, string> = {
-  PERFECT: '#A855F7',
-  GOOD: '#3B82F6',
-  MARGINAL: '#F59E0B',
-  LINK_WARNING: '#EF4444',
-  WRONG_ACTION: '#EF4444',
-  MISS: '#374151',
-};
+import { resolveCssColorForCanvas, cssColorWithAlpha } from '../lib/canvasColor';
 
 const PADDING = { top: 40, bottom: 40, left: 16, right: 16 };
 const VISIBLE_BEATS = 12;
@@ -51,6 +35,22 @@ export class GameRenderer {
     const w = this.w;
     const h = this.h;
 
+    const lane = {
+      data: resolveCssColorForCanvas('var(--color-static-grey)'),
+      strobe: resolveCssColorForCanvas('var(--color-industrial-blue)'),
+      clock: resolveCssColorForCanvas('var(--color-space-purple)'),
+      cueToggle: '#FFFFFF',
+      cueHold: cssColorWithAlpha('var(--color-static-grey)', 0.5),
+    };
+    const feedback: Record<string, string> = {
+      PERFECT: resolveCssColorForCanvas('var(--color-space-purple)'),
+      GOOD: resolveCssColorForCanvas('var(--color-industrial-blue)'),
+      MARGINAL: resolveCssColorForCanvas('var(--color-prototype-amber)'),
+      LINK_WARNING: resolveCssColorForCanvas('var(--color-breadboard-red)'),
+      WRONG_ACTION: resolveCssColorForCanvas('var(--color-breadboard-red)'),
+      MISS: '#374151',
+    };
+
     ctx.clearRect(0, 0, w, h);
     ctx.fillStyle = '#0A0E1A';
     ctx.fillRect(0, 0, w, h);
@@ -80,15 +80,15 @@ export class GameRenderer {
     ctx.font = '11px Inter, sans-serif';
     ctx.textBaseline = 'top';
     ctx.textAlign = 'center';
-    ctx.fillStyle = LANE_COLORS.data;
+    ctx.fillStyle = lane.data;
     ctx.fillText('DATA', PADDING.left + plotW * 0.15, PADDING.top - 16);
-    ctx.fillStyle = LANE_COLORS.strobe;
+    ctx.fillStyle = lane.strobe;
     ctx.fillText('STROBE (YOU)', PADDING.left + plotW * 0.5, PADDING.top - 16);
-    ctx.fillStyle = LANE_COLORS.clock;
+    ctx.fillStyle = lane.clock;
     ctx.fillText('D ⊕ S', PADDING.left + plotW * 0.85, PADDING.top - 16);
 
     // Lane separator lines
-    ctx.strokeStyle = '#1E293B';
+    ctx.strokeStyle = resolveCssColorForCanvas('var(--color-border)');
     ctx.lineWidth = 0.5;
     for (let i = 1; i < 3; i++) {
       const y = PADDING.top + laneH * i;
@@ -152,14 +152,14 @@ export class GameRenderer {
     };
 
     // Data lane
-    drawWave((i) => seq[i], dataY, LANE_COLORS.data, 2);
+    drawWave((i) => seq[i], dataY, lane.data, 2);
 
     // Compute strobe from cues + state
     const strobeLevels = this.computeStrobeLevels(state);
-    drawWave((i) => strobeLevels[i] ?? 0, strobeY, LANE_COLORS.strobe, 2.5);
+    drawWave((i) => strobeLevels[i] ?? 0, strobeY, lane.strobe, 2.5);
 
     // Clock = Data XOR Strobe
-    drawWave((i) => (seq[i] ?? 0) ^ (strobeLevels[i] ?? 0), clockY, LANE_COLORS.clock, 2);
+    drawWave((i) => (seq[i] ?? 0) ^ (strobeLevels[i] ?? 0), clockY, lane.clock, 2);
 
     // Draw cue markers on strobe lane
     for (const cue of state.cues) {
@@ -167,9 +167,9 @@ export class GameRenderer {
       if (x < PADDING.left - 20 || x > PADDING.left + plotW + 20) continue;
 
       if (cue.consumed && cue.result) {
-        this.drawConsumedCue(ctx, x, strobeY, cue);
+        this.drawConsumedCue(ctx, x, strobeY, cue, feedback);
       } else if (!cue.consumed) {
-        this.drawPendingCue(ctx, x, strobeY, cue);
+        this.drawPendingCue(ctx, x, strobeY, cue, lane);
       }
     }
 
@@ -177,9 +177,9 @@ export class GameRenderer {
     if (state.hitFeedback) {
       const age = currentTime - state.hitFeedback.time;
       if (age < 0.4) {
-        const alpha = 1 - age / 0.4;
-        const color = FEEDBACK_COLORS[state.hitFeedback.grade] ?? '#FFFFFF';
-        ctx.fillStyle = color + Math.floor(alpha * 40).toString(16).padStart(2, '0');
+        const fade = 1 - age / 0.4;
+        const base = feedback[state.hitFeedback.grade] ?? '#FFFFFF';
+        ctx.fillStyle = cssColorWithAlpha(base, fade * (40 / 255));
         ctx.fillRect(0, 0, w, h);
       }
     }
@@ -218,12 +218,13 @@ export class GameRenderer {
     x: number,
     y: number,
     cue: Cue,
+    lane: { cueToggle: string; cueHold: string },
   ): void {
     if (cue.type === 'TOGGLE_REQUIRED') {
       // Filled circle
       ctx.beginPath();
       ctx.arc(x, y, 8, 0, Math.PI * 2);
-      ctx.fillStyle = LANE_COLORS.cueToggle;
+      ctx.fillStyle = lane.cueToggle;
       ctx.fill();
     } else {
       // Diamond outline
@@ -233,7 +234,7 @@ export class GameRenderer {
       ctx.lineTo(x, y + 8);
       ctx.lineTo(x - 8, y);
       ctx.closePath();
-      ctx.strokeStyle = LANE_COLORS.cueHold;
+      ctx.strokeStyle = lane.cueHold;
       ctx.lineWidth = 1.5;
       ctx.stroke();
     }
@@ -244,8 +245,9 @@ export class GameRenderer {
     x: number,
     y: number,
     cue: Cue,
+    feedback: Record<string, string>,
   ): void {
-    const color = FEEDBACK_COLORS[cue.result ?? 'MISS'];
+    const color = feedback[cue.result ?? 'MISS'] ?? feedback.MISS;
     const alpha = 0.6;
 
     ctx.globalAlpha = alpha;
@@ -274,7 +276,12 @@ export class GameRenderer {
     ctx.textAlign = 'right';
     ctx.textBaseline = 'top';
 
-    const color = state.lives <= 1 ? '#EF4444' : state.lives <= 2 ? '#F59E0B' : '#10B981';
+    const color =
+      state.lives <= 1
+        ? resolveCssColorForCanvas('var(--color-breadboard-red)')
+        : state.lives <= 2
+          ? resolveCssColorForCanvas('var(--color-prototype-amber)')
+          : resolveCssColorForCanvas('var(--color-mars-orange)');
     ctx.fillStyle = color;
 
     let text = '';

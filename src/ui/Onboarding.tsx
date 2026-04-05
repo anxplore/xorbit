@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import OnboardingStep from './OnboardingStep';
 import WaveformDemo from './WaveformDemo';
 
-const ACCENT = '#3B82F6';
+const ACCENT = 'var(--color-industrial-blue)';
 const STORAGE_KEY = 'xor_onboarding_done';
 
 interface OnboardingProps {

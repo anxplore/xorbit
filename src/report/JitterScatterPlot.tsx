@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { resolveCssColorForCanvas } from '../lib/canvasColor';
 import { getDotColor } from './theme';
 
 interface DataPoint {
@@ -14,11 +15,11 @@ interface JitterScatterPlotProps {
 
 const PADDING = { top: 24, right: 60, bottom: 36, left: 56 };
 const Y_RANGE = 0.5; // ±0.5 bit periods
-const GRADE_LINES = [
-  { y: 0.05, color: '#A855F7', label: 'Space' },
-  { y: 0.15, color: '#3B82F6', label: 'Industrial' },
-  { y: 0.25, color: '#F59E0B', label: 'Warning' },
-];
+const GRADE_LINE_VARS = [
+  { y: 0.05, css: 'var(--color-space-purple)', label: 'Space' },
+  { y: 0.15, css: 'var(--color-industrial-blue)', label: 'Industrial' },
+  { y: 0.25, css: 'var(--color-prototype-amber)', label: 'Warning' },
+] as const;
 
 export default function JitterScatterPlot({ data, animate = true }: JitterScatterPlotProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -56,8 +57,12 @@ export default function JitterScatterPlot({ data, animate = true }: JitterScatte
       ctx.fillStyle = '#0A0E1A';
       ctx.fillRect(0, 0, w, h);
 
+      const surface = resolveCssColorForCanvas('var(--color-surface)');
+      const labelMuted = resolveCssColorForCanvas('var(--color-static-grey)');
+      const gradeLines = GRADE_LINE_VARS.map((g) => ({ ...g, color: resolveCssColorForCanvas(g.css) }));
+
       // Grid area
-      ctx.fillStyle = '#111827';
+      ctx.fillStyle = surface;
       ctx.fillRect(PADDING.left, PADDING.top, plotW, plotH);
 
       // Center line (ideal edge)
@@ -69,7 +74,7 @@ export default function JitterScatterPlot({ data, animate = true }: JitterScatte
       ctx.stroke();
 
       // Grade boundary lines (±)
-      for (const gl of GRADE_LINES) {
+      for (const gl of gradeLines) {
         ctx.strokeStyle = gl.color;
         ctx.lineWidth = 0.8;
         ctx.setLineDash([4, 4]);
@@ -88,7 +93,7 @@ export default function JitterScatterPlot({ data, animate = true }: JitterScatte
       ctx.font = '11px Inter, sans-serif';
       ctx.textAlign = 'right';
       ctx.textBaseline = 'middle';
-      ctx.fillStyle = '#6B7280';
+      ctx.fillStyle = labelMuted;
       for (const val of [-0.25, -0.15, -0.05, 0, 0.05, 0.15, 0.25]) {
         const y = toY(val);
         const label = val === 0 ? '0' : `${val > 0 ? '+' : ''}${(val * 100).toFixed(0)}%`;
@@ -115,7 +120,7 @@ export default function JitterScatterPlot({ data, animate = true }: JitterScatte
       // Grade labels on right side
       ctx.textAlign = 'left';
       ctx.textBaseline = 'middle';
-      for (const gl of GRADE_LINES) {
+      for (const gl of gradeLines) {
         ctx.fillStyle = gl.color;
         ctx.font = '9px Inter, sans-serif';
         const y = toY(gl.y);
@@ -130,7 +135,7 @@ export default function JitterScatterPlot({ data, animate = true }: JitterScatte
 
         const x = toX(pt.time);
         const y = toY(Math.max(-Y_RANGE, Math.min(Y_RANGE, pt.delta)));
-        const dotColor = getDotColor(pt.grade);
+        const dotColor = resolveCssColorForCanvas(getDotColor(pt.grade));
 
         ctx.beginPath();
         ctx.arc(x, y, 3, 0, Math.PI * 2);
