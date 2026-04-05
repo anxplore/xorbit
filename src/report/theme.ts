@@ -2,23 +2,23 @@ import type { MissionGrade } from '../types/game.types';
 
 export const REPORT_THEME = {
   background: '#0A0E1A',
-  surface: '#111827',
-  border: '#1E293B',
+  surface: 'var(--color-surface)',
+  border: 'var(--color-border)',
 
   gradeColors: {
-    S: '#A855F7',
-    A: '#3B82F6',
-    B: '#10B981',
-    C: '#F59E0B',
-    D: '#EF4444',
-    LINK_DOWN: '#6B7280',
+    S: 'var(--color-space-purple)',
+    A: 'var(--color-industrial-blue)',
+    B: 'var(--color-mars-orange)',
+    C: 'var(--color-prototype-amber)',
+    D: 'var(--color-breadboard-red)',
+    LINK_DOWN: 'var(--color-static-grey)',
   } satisfies Record<MissionGrade, string>,
 
   dotColors: {
-    PERFECT: '#A855F7',
-    GOOD: '#3B82F6',
-    MARGINAL: '#F59E0B',
-    LINK_WARNING: '#EF4444',
+    PERFECT: 'var(--color-space-purple)',
+    GOOD: 'var(--color-industrial-blue)',
+    MARGINAL: 'var(--color-prototype-amber)',
+    LINK_WARNING: 'var(--color-breadboard-red)',
     MISS: '#374151',
   },
 } as const;

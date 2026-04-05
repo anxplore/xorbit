@@ -209,12 +209,12 @@ export default function PlayScreen({ config, onGameEnd, onQuit }: PlayScreenProp
               className="font-orbitron text-2xl font-bold tracking-widest animate-bounce"
               style={{
                 color:
-                  feedback === 'PERFECT' ? '#A855F7' :
-                  feedback === 'GOOD' ? '#3B82F6' :
-                  feedback === 'MARGINAL' ? '#F59E0B' :
-                  feedback === 'WRONG' ? '#EF4444' :
-                  feedback === 'MISS' ? '#6B7280' :
-                  '#EF4444',
+                  feedback === 'PERFECT' ? 'var(--color-space-purple)' :
+                  feedback === 'GOOD' ? 'var(--color-industrial-blue)' :
+                  feedback === 'MARGINAL' ? 'var(--color-prototype-amber)' :
+                  feedback === 'WRONG' ? 'var(--color-breadboard-red)' :
+                  feedback === 'MISS' ? 'var(--color-static-grey)' :
+                  'var(--color-breadboard-red)',
               }}
             >
               {feedback === 'WRONG' ? 'WRONG ACTION' : feedback}
@@ -248,7 +248,7 @@ export default function PlayScreen({ config, onGameEnd, onQuit }: PlayScreenProp
               key={i}
               className="text-lg transition-all duration-200"
               style={{
-                color: i < lives ? (lives <= 1 ? '#EF4444' : '#10B981') : '#374151',
+                color: i < lives ? (lives <= 1 ? 'var(--color-breadboard-red)' : 'var(--color-mars-orange)') : '#374151',
                 transform: i < lives ? 'scale(1)' : 'scale(0.7)',
               }}
             >

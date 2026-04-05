@@ -35,7 +35,7 @@ export default function ModeCard({
     <div
       className="relative flex flex-col rounded-2xl border p-6 transition-all duration-300 bg-surface"
       style={{
-        borderColor: isHovered ? accentColor : '#1E293B',
+        borderColor: isHovered ? accentColor : 'var(--color-border)',
         boxShadow: isHovered ? `0 0 30px ${accentColor}30, 0 0 60px ${accentColor}15` : 'none',
         transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
       }}
