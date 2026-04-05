@@ -1,0 +1,39 @@
+{
+  "name": "@anxplore/xorbit",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@anxplore/ui": "^0.2.0",
+    "@astrojs/react": "^4.2.1",
+    "@fontsource/inter": "^5.0.0",
+    "@fontsource/montserrat": "^5.2.8",
+    "@fontsource/orbitron": "^5.0.0",
+    "@tailwindcss/vite": "^4.0.0",
+    "@tsparticles/engine": "^3.0.0",
+    "@tsparticles/slim": "^3.0.0",
+    "astro": "^6.1.3",
+    "gsap": "^3.12.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwindcss": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "jsdom": "^29.0.1",
+    "vitest": "^3.0.0"
+  }
+}

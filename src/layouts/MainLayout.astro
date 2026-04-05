@@ -1,0 +1,23 @@
+---
+import BaseLayout from '@anxplore/ui/layouts/BaseLayout';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "XORbit | Anxplore Lab",
+  description = "SpaceWire DS Pulse — a rhythm game that teaches DS encoding through signal integrity.",
+} = Astro.props;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalUrl="https://anxplore.space/lab/xorbit"
+  siteName="Anxplore Lab"
+>
+  <slot />
+</BaseLayout>

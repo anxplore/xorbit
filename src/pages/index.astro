@@ -1,0 +1,14 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import StarBackground from '@anxplore/ui/components/StarBackground';
+import GameApp from '../ui/GameApp';
+---
+
+<MainLayout>
+  <div class="relative w-full min-h-screen overflow-hidden bg-deep-space-dark">
+    <StarBackground />
+    <div class="relative z-10">
+      <GameApp client:load />
+    </div>
+  </div>
+</MainLayout>

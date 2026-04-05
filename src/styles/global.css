@@ -1,0 +1,25 @@
+@import "tailwindcss";
+@import "@anxplore/ui/tokens";
+
+@theme {
+  --color-background: var(--ax-color-background);
+  --color-foreground: var(--ax-color-foreground);
+  --color-deep-space: var(--ax-color-deep-space);
+  --color-deep-space-dark: var(--ax-color-deep-space-dark);
+  --color-mars-orange: var(--ax-color-mars-orange);
+  --color-mars-orange-hover: var(--ax-color-mars-orange-hover);
+  --color-starlight: var(--ax-color-starlight);
+  --color-nebula: var(--ax-color-nebula);
+  --font-orbitron: var(--ax-font-display);
+  --font-inter: var(--ax-font-body);
+
+  --color-space-purple: #A855F7;
+  --color-industrial-blue: #3B82F6;
+  --color-engineering-green: #10B981;
+  --color-prototype-amber: #F59E0B;
+  --color-breadboard-red: #EF4444;
+  --color-static-grey: #6B7280;
+
+  --color-surface: #111827;
+  --color-border: #1E293B;
+}
