@@ -1,71 +1,76 @@
-# 🛰️ XORbit — SpaceWire DS Pulse
+# 🛰️ XORbit: The SpaceWire DS Mechanism Visualizer
 
 **Master the heartbeat of satellite communication.**
 
+👉 **[Launch XORbit to build a physical intuition for Data-Strobe encoding.](https://xorbit.anxplore.space/)**
+
 ## 📜 The Mission
-In the vacuum of space, data is life. But data is chaotic. To make it travel across the stars, we need order. We need the **Recovered Clock**.
+In the 500km vacuum of Low Earth Orbit, a single unhandled transition can paralyze a payload. \
+To make data survive the stars, we need the **Recovered Clock**.
 
-**XORbit** is a high-stakes rhythm web game where you step into the role of a Strobe Controller. \
-Your objective is simple but critical: Maintain the link. Extract the clock. Prevent the disconnect.
+**XORbit** is an interactive visualizer designed to decode the core mechanism of SpaceWire Data-Strobe (DS) encoding. \
+Instead of reading the abstract definitions of the ECSS standard, you will physically execute the logic.\
+**Maintain the link. Extract the clock. Prevent the disconnect.**
 
-## 🕹️ Gameplay Mechanics: The SpaceWire Data-Strobe (DS) Encoding Rule
-You are the DS Encoder logic circuit inside an orbiting spacecraft chip.
+## ⚙️ The Mechanism: Data-Strobe (DS) Encoding
+You are acting as the DS Encoder logic. 
 
-The game follows the official **SpaceWire (ECSS-E-ST-50-12C)** standard. \
-Data (D) flows automatically, but the link requires a transition every cycle to keep the clock alive.
+The fundamental rule of SpaceWire DS encoding is simple but absolute: The XOR of Data (D) and Strobe (S) must always yield the clock. \
+Data flows automatically, but you must synthesize the Strobe signal.
 
-* **When Data stays the same:** You must toggle the **Strobe (S)**.
-* **When Data changes:** You must stay still.
+* **If Data transitions:** Do nothing. Hold the Strobe.
+* **If Data stays flat:** Toggle the Strobe.
 
-If you miss a beat, the clock stops. If the clock stops, the link is lost.
+Miss a cycle, the clock stops. The link drops.
 
-![Gameplay](docs/screenshots/gameplay.png)
+![Signal Synchronization](docs/screenshots/gameplay.png)
 
-## ⚡ Core Features
+## ⚡ Core Specs
 
-### 📐 Precision Jitter Analysis
-Your performance isn't just a score; it's **Signal Integrity**. Every hit is measured as a **Percentage of the Bit Period**. 
-* Can you hit the **Space Grade** (< 5% Jitter)? 
-* Or are you just a noisy **Consumer Grade** circuit?
+### 📐 Jitter & Timing Analysis
+Your performance isn't a "score"—it is a measure of your **Timing Consistency**. Every transition is measured against the bit period.
+* Can you maintain **< 5% Jitter (Space Grade)**? 
+* Or does your timing decay into **Consumer Grade** noise?
 
-### 🎮 Game Modes
-| Mode | Control | Description |
+### 🛠️ Interactive Environments
+| Environment | Control Logic | Objective |
 |------|---------|-------------|
-| **Easy** | `Space` to toggle | Focus on learning the DS logic |
-| **Advanced** | `↑` = HIGH, `↓` = LOW | Full dual-rail voltage control |
+| **Calibration** | `Space` to toggle | Isolate and internalize the DS logical rules. |
+| **Full-Rail** | `↑` = HIGH, `↓` = LOW | Manage full dual-rail voltage transitions. |
 
-### 🚀 Scaling Bitrates
-Experience the pressure of deep-space telemetry.
-* **100 Mbps**: Systematic calibration.
-* **150 Mbps**: High-speed stability.
-* **200 Mbps**: The edge of physics. Your reflexes must be as fast as electrons.
+### 🚀 Telemetry Bitrates
+Test your reaction against orbital frequencies:
+* **100 Mbps**: System bring-up.
+* **150 Mbps**: Operational stability.
+* **200 Mbps**: The physical limit.
 
-![Mode Selection](docs/screenshots/mode-select.png)
+![Environment Setup](docs/screenshots/mode-select.png)
 
-## 🏆 The Grading Scale
-How reliable is your logic?
+## 🏆 The Qualification Scale
+How consistent is your internal clock? At the end of every run, XORbit compiles a comprehensive **Link Analysis Report**.
 
-* **Space Grade (S)**: Flawless synchronization. Ready for Mars missions.
-* **Military Grade (A)**: Highly reliable under extreme conditions.
-* **Industrial Grade (B)**: Stable for terrestrial applications.
-* **Consumer Grade (C)**: Functional, but watch out for interference.
+* **Space Grade (S)**: Flawless synchronization. 
+* **Military Grade (A)**: Highly reliable timing.
+* **Industrial Grade (B)**: Stable for Earth-bound testbeds.
+* **Consumer Grade (C)**: Functional, susceptible to delay.
 * **Prototype (D) / LINK_DOWN**: Link Disconnected. Back to the lab.
 
-### 📊 Signal Integrity Report
-At the end of every mission, receive a comprehensive **Link Analysis Report**.
-* **Jitter Scatter Plot**: Visualize your timing consistency.
-* **Skew Distribution**: Identify if your logic is leading or lagging.
-* **Link Error Rate (LER)**: Analyze exactly where the synchronization failed.
+### 📊 Telemetry Output
+* **Jitter Scatter Plot**: Visualize your phase variation.
+* **Skew Distribution**: Identify if your transitions are leading or lagging.
+* **Link Error Rate (LER)**: Pinpoint the exact cycle of synchronization failure.
 
 ![Signal Integrity Report](docs/screenshots/report.jpeg)
 
 ## 🌌 Why XORbit?
-Most people see code; engineers see pulses. **XORbit** turns the abstract math of DS encoding into a visceral, rhythmic experience. \
-It's not just a game — it's a physical intuition for the protocol that powers modern space exploration.
+Most developers read protocol definitions; hardware engineers need to *feel* the pulses. \
+**XORbit** translates the abstract text of the SpaceWire DS mechanism into a visceral, physical execution. 
 
 > You're not playing rhythm. You're keeping a satellite awake.
 
-**Are you ready to sync?**
+**Are you ready to sync?** \
+👉 **[Start Synchronizing Satellite Now.](https://xorbit.anxplore.space/)**
 
 ---
-*Built by [Anxplore](https://anxplore.space). Inspired by the ECSS-E-ST-50-12C Standard.*
+*Built by [Anxplore](https://www.anxplore.space). From 2nm chips to 500km orbit.*\
+*Inspired by the ECSS-E-ST-50-12C Standard.*
